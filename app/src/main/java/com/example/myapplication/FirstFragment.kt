@@ -6,12 +6,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.databinding.FragmentFirstBinding
+
 
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
  */
 class FirstFragment : Fragment() {
+
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var taskAdapter: TaskAdapter
+    private lateinit var taskList: MutableList<Task>
 
     private var _binding: FragmentFirstBinding? = null
 
@@ -23,10 +30,18 @@ class FirstFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
         _binding = FragmentFirstBinding.inflate(inflater, container, false)
-        return binding.root
+        //examples
+        taskList = mutableListOf(
+            Task("Workout", "Go for a run"),
+            Task("Study", "Review Kotlin basics")
+        )
+        recyclerView = binding.recyclerView
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        taskAdapter = TaskAdapter(taskList)
+        recyclerView.adapter = taskAdapter
 
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -34,6 +49,13 @@ class FirstFragment : Fragment() {
 
         binding.buttonFirst.setOnClickListener {
             findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
+        }
+        val navBackStackEntry = findNavController().currentBackStackEntry
+        val savedStateHandle = navBackStackEntry?.savedStateHandle
+
+        savedStateHandle?.getLiveData<Task>("new_task")?.observe(viewLifecycleOwner){ newTask ->
+            taskList.add(newTask)
+            taskAdapter.notifyItemInserted(taskList.size - 1)
         }
     }
 

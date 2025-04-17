@@ -33,7 +33,15 @@ class SecondFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.buttonFirst.setOnClickListener() {
-            findNavController().navigate(R.id.action_SecondFragment_to_FirstFragment)
+            val title = binding.title.text.toString()
+            val description = binding.description.text.toString()
+            if(title.isNotBlank() && description.isNotBlank()) {
+                val newTask = Task(title,description)
+                findNavController().previousBackStackEntry
+                    ?.savedStateHandle
+                    ?.set("new_task", newTask)
+                findNavController().popBackStack()
+            }
         }
     }
 
