@@ -16,15 +16,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-        <EditText
-            android:id="@+id/title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="Add Title"
-            android:inputType="text"
-            android:text=""
-            android:textSize="25dp" />
+            <EditText
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="Add Title"
+                android:inputType="text"
+                android:text=""
+                android:textSize="25dp" />
             <EditText
                 android:id="@+id/description"
                 android:layout_width="match_parent"
@@ -34,13 +34,26 @@
                 android:inputType="text"
                 android:text=""
                 android:textSize="25dp" />
+            <EditText
+                android:id="@+id/category"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="Add Category"
+                android:inputType="text"
+                android:text=""
+                android:textSize="25dp" />
+            <DatePicker
+                android:id="@+id/date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
 
             <Button
-            android:id="@+id/button_first"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Add"
-            />
+                android:id="@+id/button_first"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Add"
+                android:layout_gravity="center"/>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 

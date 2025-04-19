@@ -1,7 +1,7 @@
 package com.example.myapplication
 
+import android.icu.util.Calendar
 import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -9,6 +9,8 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.DatePicker
+import android.widget.Toast
 import com.example.myapplication.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -24,15 +26,25 @@ class MainActivity : AppCompatActivity() {
 
         setSupportActionBar(binding.toolbar)
 
+
+
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         appBarConfiguration = AppBarConfiguration(navController.graph)
         setupActionBarWithNavController(navController, appBarConfiguration)
-
-        binding.fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null)
-                .setAnchorView(R.id.fab).show()
+        navController.addOnDestinationChangedListener{_,destination,_ ->
+            when(destination.id) {
+                R.id.FirstFragment -> {
+                    binding.fab.show()
+                    binding.fab.setOnClickListener{
+                        navController.navigate(R.id.action_FirstFragment_to_SecondFragment)
+                    }
+                }
+                else -> {
+                    binding.fab.hide()
+                }
+            }
         }
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

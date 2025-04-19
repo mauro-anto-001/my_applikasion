@@ -33,8 +33,8 @@ class FirstFragment : Fragment() {
         _binding = FragmentFirstBinding.inflate(inflater, container, false)
         //examples
         taskList = mutableListOf(
-            Task("Workout", "Go for a run"),
-            Task("Study", "Review Kotlin basics")
+            Task("Workout", "Go for a run", "Fitness"),
+            Task("Study", "Continue learning Kotlin", "Education" )
         )
         recyclerView = binding.recyclerView
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
@@ -47,9 +47,6 @@ class FirstFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.buttonFirst.setOnClickListener {
-            findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
-        }
         val navBackStackEntry = findNavController().currentBackStackEntry
         val savedStateHandle = navBackStackEntry?.savedStateHandle
 

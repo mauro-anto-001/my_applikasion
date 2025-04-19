@@ -11,6 +11,8 @@ class TaskAdapter(private val taskList: List<Task>) : RecyclerView.Adapter<TaskA
     class TaskViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         val titleTextView: TextView = itemView.findViewById(R.id.task_title)
         val descriptionTextView: TextView = itemView.findViewById(R.id.task_description)
+        val categoryTextView: TextView = itemView.findViewById(R.id.task_category)
+
     }
 
      override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskViewHolder {
@@ -22,6 +24,7 @@ class TaskAdapter(private val taskList: List<Task>) : RecyclerView.Adapter<TaskA
          val task = taskList[position]
          holder.titleTextView.text =task.title
          holder.descriptionTextView.text = task.description
+         holder.categoryTextView.text = task.category
      }
 
      override fun getItemCount(): Int = taskList.size

@@ -35,8 +35,9 @@ class SecondFragment : Fragment() {
         binding.buttonFirst.setOnClickListener() {
             val title = binding.title.text.toString()
             val description = binding.description.text.toString()
-            if(title.isNotBlank() && description.isNotBlank()) {
-                val newTask = Task(title,description)
+            val category = binding.category.text.toString()
+            if(title.isNotBlank() && description.isNotBlank() && category.isNotBlank()) {
+                val newTask = Task(title,description, category)
                 findNavController().previousBackStackEntry
                     ?.savedStateHandle
                     ?.set("new_task", newTask)
