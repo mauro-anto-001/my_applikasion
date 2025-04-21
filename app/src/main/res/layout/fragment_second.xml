@@ -43,10 +43,19 @@
                 android:inputType="text"
                 android:text=""
                 android:textSize="25dp" />
-            <DatePicker
-                android:id="@+id/date"
+            <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:text="Select Date"/>
+            <Button
+                android:id="@+id/datePickerButton"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:text="JAN 01 2025"
+                android:textSize="30sp"
+                android:textColor="@color/black"
+                style="?android:spinnerStyle"
+                android:layout_marginTop="10dp" />
 
             <Button
                 android:id="@+id/button_first"

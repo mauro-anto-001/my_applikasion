@@ -33,8 +33,8 @@ class FirstFragment : Fragment() {
         _binding = FragmentFirstBinding.inflate(inflater, container, false)
         //examples
         taskList = mutableListOf(
-            Task("Workout", "Go for a run", "Fitness"),
-            Task("Study", "Continue learning Kotlin", "Education" )
+            Task("Workout", "Go for a run", "Fitness", "APR 20 2025"),
+            Task("Study", "Continue learning Kotlin", "Education", "APR 20 2025" )
         )
         recyclerView = binding.recyclerView
         recyclerView.layoutManager = LinearLayoutManager(requireContext())

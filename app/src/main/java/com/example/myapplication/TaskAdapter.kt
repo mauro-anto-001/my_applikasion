@@ -12,6 +12,7 @@ class TaskAdapter(private val taskList: List<Task>) : RecyclerView.Adapter<TaskA
         val titleTextView: TextView = itemView.findViewById(R.id.task_title)
         val descriptionTextView: TextView = itemView.findViewById(R.id.task_description)
         val categoryTextView: TextView = itemView.findViewById(R.id.task_category)
+        val scheduledDateTextView: TextView = itemView.findViewById(R.id.task_schedule)
 
     }
 
@@ -25,6 +26,7 @@ class TaskAdapter(private val taskList: List<Task>) : RecyclerView.Adapter<TaskA
          holder.titleTextView.text =task.title
          holder.descriptionTextView.text = task.description
          holder.categoryTextView.text = task.category
+         holder.scheduledDateTextView.text = task.scheduledDate
      }
 
      override fun getItemCount(): Int = taskList.size

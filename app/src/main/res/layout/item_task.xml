@@ -33,6 +33,13 @@
             android:text="Category"
             android:textSize="16sp"
             android:layout_marginTop="2dp"/>
+        <TextView
+            android:id="@+id/task_schedule"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Due Date"
+            android:textSize="16sp"
+            android:layout_marginTop="2dp"/>
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>
