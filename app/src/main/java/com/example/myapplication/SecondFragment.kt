@@ -60,6 +60,8 @@ class SecondFragment : Fragment() {
         dateButton.setOnClickListener{
             openDatePicker(it)
         }
+
+
     }
 
     private fun getTodaysDate(): String {
@@ -107,7 +109,7 @@ class SecondFragment : Fragment() {
         }
     }
 
-    fun openDatePicker(view: View) {
+    private fun openDatePicker(view: View) {
         datePickerDialog.show()
     }
 
