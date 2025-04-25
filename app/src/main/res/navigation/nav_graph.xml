@@ -24,5 +24,9 @@
         <action
             android:id="@+id/action_SecondFragment_to_FirstFragment"
             app:destination="@id/FirstFragment" />
+        <argument
+            android:name="task"
+            app:argType="com.example.myapplication.Task"
+           />
     </fragment>
 </navigation>
