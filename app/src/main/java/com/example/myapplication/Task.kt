@@ -3,12 +3,11 @@ package com.example.myapplication
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
-@Parcelize
 data class Task(
-    val id: Long = System.currentTimeMillis(),
-    val title: String,
-    val description: String,
-    val category: String,
-    val scheduledDate: String)
-    : Parcelable{
-}
+    var id: Int,
+    var title: String,
+    var description: String,
+    var category: String,
+    var dueDateTime: String,
+    var isCompleted: Boolean = false
+)

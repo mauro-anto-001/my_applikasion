@@ -1,87 +1,49 @@
-<?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
-    app:cardCornerRadius="12dp"
-    app:cardElevation="4dp">
+    android:layout_marginBottom="12dp"
+    card_view:cardCornerRadius="12dp"
+    card_view:cardElevation="4dp"
+    android:layout_marginTop="6dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:padding="12dp">
 
-        <TextView
-            android:id="@+id/task_title"
+        <CheckBox
+            android:id="@+id/taskCheckBox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Task Title"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+            android:text="Mark as completed"
+            android:layout_marginBottom="8dp"/>
 
-        <TextView
-            android:id="@+id/task_description"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:text="Task Description"
-            android:textSize="16sp" />
+        <TextView android:id="@+id/taskTitle"
+            android:textStyle="bold" android:textSize="16sp"
+            android:layout_width="match_parent" android:layout_height="wrap_content" />
 
-        <TextView
-            android:id="@+id/task_category"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            android:text="Category"
-            android:textSize="16sp" />
+        <TextView android:id="@+id/taskDescription"
+            android:layout_width="match_parent" android:layout_height="wrap_content" />
 
-        <TextView
-            android:id="@+id/task_schedule"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            android:text="Due Date"
-            android:textSize="16sp" />
+        <TextView android:id="@+id/taskCategory"
+            android:layout_width="match_parent" android:layout_height="wrap_content" />
+
+        <TextView android:id="@+id/taskDueDateTime"
+            android:layout_width="match_parent" android:layout_height="wrap_content" />
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_gravity="end"
-            >
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="horizontal" android:layout_marginTop="8dp">
 
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/fab_delete"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="5dp"
-                android:layout_marginStart="8dp"
-                android:clickable="true"
-                android:focusable="true"
-                android:contentDescription="Delete Task"
-                app:srcCompat="@android:drawable/ic_menu_delete"
-                app:elevation="2dp"
-                />
+            <Button android:id="@+id/editBtn"
+                android:text="Edit" android:layout_width="0dp"
+                android:layout_weight="1" android:layout_height="wrap_content" />
 
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/fab_edit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                android:clickable="true"
-                android:focusable="true"
-                android:contentDescription="Edit Task"
-                app:srcCompat="@android:drawable/ic_menu_edit"
-                app:elevation="2dp"
-                />
+            <Button android:id="@+id/deleteBtn"
+                android:text="Delete" android:layout_width="0dp"
+                android:layout_weight="1" android:layout_height="wrap_content" />
         </LinearLayout>
-
     </LinearLayout>
-
 </androidx.cardview.widget.CardView>

@@ -1,50 +1,65 @@
 package com.example.myapplication
 
+import android.graphics.Paint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.CheckBox
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-
 class TaskAdapter(
-    private val taskList: List<Task>, private val listener: OnTaskClickListener)
-    : RecyclerView.Adapter<TaskAdapter.TaskViewHolder>() {
-    //viewholder to hold a row of the list aka a card/task
-    interface OnTaskClickListener {
-        fun onEditClick(task: Task)
-        fun onDeleteClick(task: Task)
+    private val tasks: List<Task>,
+    private val onEdit: (Task) -> Unit,
+    private val onDelete: (Task) -> Unit
+) : RecyclerView.Adapter<TaskAdapter.TaskViewHolder>() {
+
+    inner class TaskViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val title = view.findViewById<TextView>(R.id.taskTitle)
+        val desc = view.findViewById<TextView>(R.id.taskDescription)
+        val cat = view.findViewById<TextView>(R.id.taskCategory)
+        val due = view.findViewById<TextView>(R.id.taskDueDateTime)
+        val editBtn = view.findViewById<Button>(R.id.editBtn)
+        val deleteBtn = view.findViewById<Button>(R.id.deleteBtn)
+        val checkBox = view.findViewById<CheckBox>(R.id.taskCheckBox)
     }
-    class TaskViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
-        val titleTextView: TextView = itemView.findViewById(R.id.task_title)
-        val descriptionTextView: TextView = itemView.findViewById(R.id.task_description)
-        val categoryTextView: TextView = itemView.findViewById(R.id.task_category)
-        val scheduledDateTextView: TextView = itemView.findViewById(R.id.task_schedule)
-        val fabEdit: FloatingActionButton = itemView.findViewById(R.id.fab_edit)
-        val fabDelete: FloatingActionButton = itemView.findViewById(R.id.fab_delete)
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskViewHolder {
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_task, parent, false)
+        return TaskViewHolder(view)
     }
 
-     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskViewHolder {
-         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_task, parent, false)
-         return TaskViewHolder(view)
-     }
+    override fun onBindViewHolder(holder: TaskViewHolder, position: Int) {
+        val task = tasks[position]
 
-     override fun onBindViewHolder(holder: TaskViewHolder, position: Int) {
-         val task = taskList[position]
-         holder.titleTextView.text =task.title
-         holder.descriptionTextView.text = task.description
-         holder.categoryTextView.text = task.category
-         holder.scheduledDateTextView.text = task.scheduledDate
+        holder.title.text = task.title
+        holder.desc.text = task.description
+        holder.cat.text = "Category: ${task.category}"
+        holder.due.text = "Due: ${task.dueDateTime}"
 
-         holder.fabEdit.setOnClickListener{
-             listener.onEditClick(task)
+        holder.checkBox.setOnCheckedChangeListener(null)
+        holder.checkBox.isChecked = task.isCompleted
 
-         }
-         holder.fabDelete.setOnClickListener {
-             listener.onDeleteClick(task)
-         }
-     }
+        holder.checkBox.setOnCheckedChangeListener { _, isChecked ->
+            task.isCompleted = isChecked
+            notifyItemChanged(position)
+            holder.itemView.context.let {
+                if (it is MainActivity) {
+                    it.updateTaskCount()
+                }
+            }
+        }
 
-     override fun getItemCount(): Int = taskList.size
+        val flag = if (task.isCompleted) Paint.STRIKE_THRU_TEXT_FLAG else 0
+        holder.title.paintFlags = flag
+        holder.desc.paintFlags = flag
+        holder.cat.paintFlags = flag
+        holder.due.paintFlags = flag
 
+        holder.editBtn.setOnClickListener { onEdit(task) }
+        holder.deleteBtn.setOnClickListener { onDelete(task) }
+    }
+
+    override fun getItemCount() = tasks.size
 }
