@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.ksp)
     id("kotlin-parcelize")
     id ("androidx.navigation.safeargs.kotlin")
 
@@ -49,7 +50,12 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
+    implementation(libs.room.runtime)
+    implementation(libs.androidx.room.runtime.android)
+    ksp(libs.room.compiler)
+    implementation(libs.room.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
 }

@@ -176,12 +176,14 @@ class MainActivity : AppCompatActivity() {
             .setTitle(if (task == null) "Add Task" else "Edit Task")
             .setView(dialogView)
             .setPositiveButton("Save") { _, _ ->
+                val userId = intent.getIntExtra("userId", -1)
                 val newTask = Task(
                     task?.id ?: nextId++,
                     titleInput.text.toString().trim(),
                     descInput.text.toString().trim(),
                     catInput.text.toString().trim(),
-                    selectedDateTime
+                    selectedDateTime,
+                    userId = userId
                 )
                 if (task == null) taskList.add(newTask)
                 else {
