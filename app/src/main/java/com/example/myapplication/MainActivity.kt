@@ -17,16 +17,19 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.concurrent.thread
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var taskAdapter: TaskAdapter
     private val taskList = mutableListOf<Task>()
-    private var nextId = 1
+    private var userId: Int = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        userId = intent.getIntExtra("userId", -1)
 
         val toolbar = findViewById<Toolbar>(R.id.topToolbar)
         setSupportActionBar(toolbar)
@@ -35,6 +38,9 @@ class MainActivity : AppCompatActivity() {
         taskAdapter = TaskAdapter(taskList,
             onEdit = { task -> showTaskDialog(task) },
             onDelete = { task ->
+                thread {
+                    AppDatabase.getInstance(this).taskDao().delete(task)
+                }
                 taskList.remove(task)
                 taskAdapter.notifyDataSetChanged()
                 updateTaskCount()
@@ -46,9 +52,21 @@ class MainActivity : AppCompatActivity() {
         findViewById<FloatingActionButton>(R.id.addTaskFab).setOnClickListener {
             showTaskDialog()
         }
-
+        loadTaskFromDataBase()
         updateTaskCount()
         applyUserSettings()
+    }
+
+    private fun loadTaskFromDataBase(){
+        thread {
+            val tasks = AppDatabase.getInstance(this).taskDao().getTasksByUserId(userId)
+            runOnUiThread{
+                taskList.clear()
+                taskList.addAll(tasks)
+                taskAdapter.notifyDataSetChanged()
+                updateTaskCount()
+            }
+        }
     }
 
     override fun onResume() {
@@ -176,23 +194,36 @@ class MainActivity : AppCompatActivity() {
             .setTitle(if (task == null) "Add Task" else "Edit Task")
             .setView(dialogView)
             .setPositiveButton("Save") { _, _ ->
-                val userId = intent.getIntExtra("userId", -1)
                 val newTask = Task(
-                    task?.id ?: nextId++,
+                    task?.id ?: 0,
                     titleInput.text.toString().trim(),
                     descInput.text.toString().trim(),
                     catInput.text.toString().trim(),
                     selectedDateTime,
+                    isCompleted = task?.isCompleted ?: false,
                     userId = userId
                 )
-                if (task == null) taskList.add(newTask)
-                else {
-                    val index = taskList.indexOfFirst { it.id == task.id }
-                    if (index != -1) taskList[index] = newTask
+                thread {
+                    val dao = AppDatabase.getInstance(this).taskDao()
+                    if (task == null) {
+                        val id = dao.insert(newTask).toInt()
+                        newTask.id = id
+                        runOnUiThread{
+                            taskList.add(newTask)
+                            taskAdapter.notifyDataSetChanged()
+                            updateTaskCount()
+                        }
+                    }
+                    else {
+                        dao.update(newTask)
+                        runOnUiThread{
+                            val index = taskList.indexOfFirst { it.id == task.id }
+                            if (index != -1) taskList[index] = newTask
+                            taskAdapter.notifyDataSetChanged()
+                            updateTaskCount()
+                        }
+                    }
                 }
-
-                taskAdapter.notifyDataSetChanged()
-                updateTaskCount()
             }
             .setNegativeButton("Cancel", null)
             .show()

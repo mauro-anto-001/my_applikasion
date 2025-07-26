@@ -9,6 +9,8 @@ import android.widget.CheckBox
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import kotlin.concurrent.thread
+
 class TaskAdapter(
     private val tasks: List<Task>,
     private val onEdit: (Task) -> Unit,
@@ -43,12 +45,11 @@ class TaskAdapter(
 
         holder.checkBox.setOnCheckedChangeListener { _, isChecked ->
             task.isCompleted = isChecked
-            notifyItemChanged(position)
-            holder.itemView.context.let {
-                if (it is MainActivity) {
-                    it.updateTaskCount()
-                }
+            thread{
+                AppDatabase.getInstance(holder.itemView.context).taskDao().update(task)
             }
+            notifyItemChanged(position)
+            (holder.itemView.context as? MainActivity)?.updateTaskCount()
         }
 
         val flag = if (task.isCompleted) Paint.STRIKE_THRU_TEXT_FLAG else 0
